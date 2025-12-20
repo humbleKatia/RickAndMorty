@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct RickAndMortyApiApp: App {
+    @StateObject private var dataController = DataController()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(dataManager: CharactersRepository(context: dataController.container.viewContext))
+                          .environment(\.managedObjectContext, dataController.container.viewContext)
         }
     }
 }

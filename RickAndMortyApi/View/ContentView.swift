@@ -6,34 +6,40 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ContentView: View {
-
-    @StateObject var vm = ViewModel(service: CharacterService())
+    @StateObject var dataManager: CharactersRepository
+    @FetchRequest(sortDescriptors: []) var characters: FetchedResults<CharacterEntity>
     
     var body: some View {
-        NavigationStack {
-            Form {
-                ForEach(vm.characters, id: \.id) { character in
-                    NavigationLink(destination:  CharacterDetailView(character: character)) {
-                        Text(character.name)
-                    }
-
+        ScrollView {
+            LazyVStack(spacing: 8) {
+                ForEach(characters, id: \.self) { character in
+                    CharacterCardView(imageUrl: character.image ?? "",
+                                      name: character.name ?? "",
+                                      status: character.status ?? "",
+                                      species: character.species ?? "",
+                                      gender: character.gender ?? "",
+                                      isFavorite: Binding(
+                                        get: { character.isFavorite },
+                                        set: { newValue in
+                                            character.isFavorite = newValue
+                                        }
+                                      ),
+                                      onFavoriteToggle: {
+                        dataManager.toggleFavorite(entity: character)
+                                        return true
+                                    }
+                    )
                 }
             }
-            .task {
-                await vm.getCharacters()
-            }
-            .navigationTitle("The Rick and Morty")
+            .padding(16)
         }
-        .accentColor(Color(.red))
+        .task {
+            await dataManager.fetchAndSaveCharacters()
+        }
     }
 }
-
-#Preview {
-    ContentView()
-}
-
-
 
 

@@ -14,47 +14,47 @@ struct CharacterCardView: View {
     let species: String
     let gender: String
     let height: CGFloat = 140
+    @Binding var isFavorite: Bool
+    let onFavoriteToggle: () async throws -> Bool
     
     var body: some View {
         ZStack {
-               HStack(spacing: 8) {
-                   NetworkImage(imageUrl: imageUrl)
-                   .frame(width: height, height: height)
-                   VStack {
-                       //title, date, status, FavoriteButton
-                       HStack(alignment: .top, spacing: 4) {
-                           VStack(alignment: .leading, spacing: 8) {
-                               Text(name)
-                                   .foregroundStyle(.black)
-                                   .lineLimit(2)
-                               Text(status)
-                                   .foregroundStyle(.black)
-                           }
-                           .frame(maxWidth: .infinity, alignment: .leading)
-                          Image(systemName: "heart.fill")
-                               .resizable()
-                               .scaledToFit()
-                           .frame(width: 34, height: 34)
-                           .padding(.trailing, 4)
-                       }
-                       Spacer()
-                       // Excursion tag, moreOrStatusButtonView
-                       HStack(alignment: .bottom) {
-                           Label(species, systemImage: "scope")
-                               .foregroundStyle(.black)
-                               .padding(.vertical, 14)
-                           Spacer()
-                       }
-                   }
-                   .frame(height: height)
-               }
-               .padding(4)
-           }
-           .background(Color.pink)
-           .clipShape(RoundedRectangle(cornerRadius: 10))
+            HStack(spacing: 8) {
+                NetworkImage(imageUrl: imageUrl)
+                    .frame(width: height, height: height)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                VStack {
+                    //name, status, favorite button
+                    HStack(alignment: .top, spacing: 4) {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(name)
+                                .foregroundStyle(.placeholder)
+                                .lineLimit(2)
+                            Text(status)
+                                .foregroundStyle(.placeholder)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        FavoriteButton(isFavorite: $isFavorite) {
+                            try await onFavoriteToggle()
+                        }
+                        .frame(width: 34, height: 34)
+                        .padding(.trailing, 4)
+                    }
+                    Spacer()
+                    //species
+                    HStack(alignment: .bottom) {
+                        Label(species, systemImage: "scope")
+                            .foregroundStyle(.placeholder)
+                            .padding(.vertical, 14)
+                        Spacer()
+                    }
+                }
+                .frame(height: height)
+            }
+            .padding(4)
+        }
+        .background(.ultraThinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
 
-#Preview {
-    CharacterCardView(imageUrl: "https://picsum.photos/200", name: "Rick Sanchez", status: "status", species: "species", gender: "male")
-}

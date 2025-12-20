@@ -35,24 +35,18 @@ struct NetworkImage: View {
         }
         .task {
             isLoading = true
-//            image = await ImageService.shared.fetch(imageUrl)
+            image = await ImageService.shared.fetch(imageUrl)
             isLoading = false
         }
     }
-   
+    
     @ViewBuilder
     func dashedBorder(content: () -> some View) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 8)
                 .fill(Color(UIColor.secondarySystemBackground))
-            RoundedRectangle(cornerRadius: 8)
-                .stroke(Color.gray.opacity(0.4), style: StrokeStyle(lineWidth: 2, lineCap: .butt, dash: [2, 2]))
             content()
         }
     }
 }
 
-
-//#Preview {
-//    NetworkImage()
-//}

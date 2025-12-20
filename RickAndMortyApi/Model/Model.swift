@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 struct Results: Codable {
     var results: [Character]
 }

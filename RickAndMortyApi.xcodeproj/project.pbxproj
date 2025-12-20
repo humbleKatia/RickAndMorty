@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4A1DEE192E62FA200033365C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4A1DEE182E62FA200033365C /* README.md */; };
-		4AB66D952EF596E000DBEB34 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4AB66D932EF596E000DBEB34 /* DataModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,23 +32,12 @@
 		4A1DED912E61B3AD0033365C /* RickAndMortyApiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RickAndMortyApiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A1DED9B2E61B3AD0033365C /* RickAndMortyApiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RickAndMortyApiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A1DEE182E62FA200033365C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		4AB66D942EF596E000DBEB34 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		4A1DED862E61B3AB0033365C /* RickAndMortyApi */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = RickAndMortyApi;
-			sourceTree = "<group>";
-		};
-		4A1DED942E61B3AD0033365C /* RickAndMortyApiTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = RickAndMortyApiTests;
-			sourceTree = "<group>";
-		};
-		4A1DED9E2E61B3AD0033365C /* RickAndMortyApiUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = RickAndMortyApiUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -82,11 +70,8 @@
 		4A1DED7B2E61B3AB0033365C = {
 			isa = PBXGroup;
 			children = (
-				4AB66D932EF596E000DBEB34 /* DataModel.xcdatamodeld */,
 				4A1DEE182E62FA200033365C /* README.md */,
 				4A1DED862E61B3AB0033365C /* RickAndMortyApi */,
-				4A1DED942E61B3AD0033365C /* RickAndMortyApiTests */,
-				4A1DED9E2E61B3AD0033365C /* RickAndMortyApiUITests */,
 				4A1DED852E61B3AB0033365C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -139,9 +124,6 @@
 			dependencies = (
 				4A1DED932E61B3AD0033365C /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				4A1DED942E61B3AD0033365C /* RickAndMortyApiTests */,
-			);
 			name = RickAndMortyApiTests;
 			packageProductDependencies = (
 			);
@@ -161,9 +143,6 @@
 			);
 			dependencies = (
 				4A1DED9D2E61B3AD0033365C /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				4A1DED9E2E61B3AD0033365C /* RickAndMortyApiUITests */,
 			);
 			name = RickAndMortyApiUITests;
 			packageProductDependencies = (
@@ -246,7 +225,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4AB66D952EF596E000DBEB34 /* DataModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -569,19 +547,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		4AB66D932EF596E000DBEB34 /* DataModel.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				4AB66D942EF596E000DBEB34 /* DataModel.xcdatamodel */,
-			);
-			currentVersion = 4AB66D942EF596E000DBEB34 /* DataModel.xcdatamodel */;
-			path = DataModel.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 4A1DED7C2E61B3AB0033365C /* Project object */;
 }
