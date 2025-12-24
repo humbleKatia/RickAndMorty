@@ -9,12 +9,14 @@ import SwiftUI
 
 @main
 struct RickAndMortyApiApp: App {
-    @StateObject private var dataController = DataController()
-
+    @StateObject private var coreDataStack = DataController.shared
+ 
     var body: some Scene {
         WindowGroup {
-            ContentView(dataManager: CharactersRepository(context: dataController.container.viewContext))
-                          .environment(\.managedObjectContext, dataController.container.viewContext)
+            ContentView()
+                .environment(\.managedObjectContext,
+                                    coreDataStack.persistentContainer.viewContext)
+              
         }
     }
 }

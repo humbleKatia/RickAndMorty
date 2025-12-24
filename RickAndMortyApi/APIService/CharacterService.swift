@@ -31,4 +31,12 @@ class CharacterService {
         return results.results
     }
     
+    func setFavoriteStatus(id: Int64, isFavorite: Bool) async throws -> Bool {
+        print("post favorite status: ID \(id) -> \(isFavorite)")
+        try await Task.sleep(nanoseconds: 1_000_000_000)
+        // simulate server error
+        //throw URLError(.badServerResponse)
+        return isFavorite
+    }
+    
 }

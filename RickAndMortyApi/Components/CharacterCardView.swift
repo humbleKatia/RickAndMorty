@@ -14,11 +14,12 @@ struct CharacterCardView: View {
     let species: String
     let gender: String
     let height: CGFloat = 140
-    @Binding var isFavorite: Bool
+    @State var isFavorite: Bool
     let onFavoriteToggle: () async throws -> Bool
     
     var body: some View {
         ZStack {
+            
             HStack(spacing: 8) {
                 NetworkImage(imageUrl: imageUrl)
                     .frame(width: height, height: height)
@@ -28,10 +29,15 @@ struct CharacterCardView: View {
                     HStack(alignment: .top, spacing: 4) {
                         VStack(alignment: .leading, spacing: 8) {
                             Text(name)
-                                .foregroundStyle(.placeholder)
+                                .foregroundStyle(.primary)
                                 .lineLimit(2)
-                            Text(status)
-                                .foregroundStyle(.placeholder)
+                            HStack {
+                                Circle()
+                                    .fill(status == "Alive" ? .customGreen : .customRed)
+                                    .frame(width: 10, height: 10)
+                                Text(status)
+                                    .foregroundStyle(.customSecondaryText)
+                            }
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         FavoriteButton(isFavorite: $isFavorite) {
@@ -56,5 +62,9 @@ struct CharacterCardView: View {
         .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }
+}
+
+#Preview {
+    CharacterDetailView(imageUrl: "https://picsum.photos/200", name: "Rick Sanchez", status: "status", species: "species", gender: "male")
 }
 

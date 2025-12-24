@@ -11,7 +11,7 @@ struct FavoriteButton: View {
     @State private var isLoading = false
     @Binding var isFavorite: Bool
     let onToggle: () async throws -> Bool
-    
+  
     var body: some View {
         Button {
             isLoading = true

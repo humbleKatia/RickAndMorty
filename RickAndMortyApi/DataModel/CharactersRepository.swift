@@ -10,69 +10,61 @@ import CoreData
 import SwiftUI
 
 @MainActor
-class CharactersRepository: ObservableObject {
-    let context: NSManagedObjectContext
-    private let apiService: CharacterService
-    
-    init(context: NSManagedObjectContext, apiService: CharacterService = .shared) {
-        self.context = context
-        self.apiService = apiService
+class CharacterRepository {
+    static let shared = CharacterRepository()
+    private let dataController = DataController.shared
+    private let apiService = CharacterService.shared
+    private var viewContext: NSManagedObjectContext {
+        dataController.viewContext
     }
     
-    func fetchAndSaveCharacters() async {
-        do {
-            let characters = try await apiService.getCharacters()
-            saveToCoreData(characters: characters)
-        } catch {
-            print("❌ error in CharactersRepository: \(error.localizedDescription)")
-        }
+    private init() {}
+    
+    func fetchLocalData() throws -> [CharacterEntity] {
+        let request: NSFetchRequest<CharacterEntity> = CharacterEntity.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \CharacterEntity.id, ascending: true)]
+        return try viewContext.fetch(request)
     }
     
-    private func saveToCoreData(characters: [Character]) {
-        context.perform {
-            for apiChar in characters {
+    func syncData() async throws {
+        let apiCharacters = try await apiService.getCharacters()
+        let bgContext = dataController.newBackgroundContext()
+        
+        await bgContext.perform {
+            for apiChar in apiCharacters {
                 let request: NSFetchRequest<CharacterEntity> = CharacterEntity.fetchRequest()
-                request.predicate = NSPredicate(format: "id == %d", apiChar.id)
+                request.predicate = NSPredicate(format: "id == %d", Int64(apiChar.id))
                 request.fetchLimit = 1
                 
                 let entity: CharacterEntity
                 
-                if let existing = try? self.context.fetch(request).first {
+                if let existing = try? bgContext.fetch(request).first {
                     entity = existing
                 } else {
-                    entity = CharacterEntity(context: self.context)
+                    entity = CharacterEntity(context: bgContext)
                     entity.id = Int64(apiChar.id)
                     entity.isFavorite = false
                 }
-          
+                
                 entity.name = apiChar.name
                 entity.status = apiChar.status
                 entity.species = apiChar.species
                 entity.gender = apiChar.gender
                 entity.image = apiChar.image
-                entity.originName = apiChar.origin.name
-                entity.originUrl = apiChar.origin.url
+                entity.lastUpdated = Date()
             }
         }
-        self.saveContext()
-    }
-  
-    func toggleFavorite(entity: CharacterEntity) {
-        if let url = entity.image {
-            ImageService.shared.toggleFavorite(url: url)
-        }
-        self.saveContext()
+        self.dataController.save(context: bgContext)
     }
     
-    private func saveContext() {
-        if context.hasChanges {
-            do {
-                try context.save()
-                print("✅ saved to core data successfully")
-            } catch {
-                print("❌ error saving to Core Data: \(error.localizedDescription)")
-            }
-        }
+    func toggleFavorite(for entity: CharacterEntity) async throws -> Bool {
+        let targetState = !entity.isFavorite
+        let serverResult = try await apiService.setFavoriteStatus(id: entity.id, isFavorite: targetState)
+        entity.isFavorite = serverResult
+        entity.lastUpdated = Date()
+        dataController.save()
+        return true
     }
-    
 }
+
+
