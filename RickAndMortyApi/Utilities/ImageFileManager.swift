@@ -14,8 +14,8 @@ class ImageFileManager {
     func saveImage(image: UIImage, imageName: String, folderName: String) {
         createFolderIfNeeded(folderName: folderName)
         guard let data = image.pngData(),
-            let url = getURLForImage(imageName: imageName, folderName: folderName)
-            else { return }
+              let url = getURLForImage(imageName: imageName, folderName: folderName)
+        else { return }
         do {
             try data.write(to: url)
         } catch let error {

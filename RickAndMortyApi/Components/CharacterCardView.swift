@@ -14,7 +14,7 @@ struct CharacterCardView: View {
     let species: String
     let gender: String
     let height: CGFloat = 140
-    @State var isFavorite: Bool
+    @Binding var isFavorite: Bool
     let onFavoriteToggle: () async throws -> Bool
     
     var body: some View {
@@ -42,6 +42,7 @@ struct CharacterCardView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         FavoriteButton(isFavorite: $isFavorite) {
                             try await onFavoriteToggle()
+                            
                         }
                         .frame(width: 34, height: 34)
                         .padding(.trailing, 4)
@@ -64,7 +65,4 @@ struct CharacterCardView: View {
     }
 }
 
-#Preview {
-    CharacterDetailView(imageUrl: "https://picsum.photos/200", name: "Rick Sanchez", status: "status", species: "species", gender: "male")
-}
 

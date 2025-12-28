@@ -8,9 +8,33 @@
 import SwiftUI
 
 struct FavoritesView: View {
-  
-    var body: some View {
+    @EnvironmentObject var viewModel: ViewModel
     
+    var body: some View {
+        ZStack {
+            Color.customBackground.ignoresSafeArea()
+            ScrollView {
+                LazyVStack(spacing: 8) {
+                    ForEach(viewModel.favoriteCharacters, id: \.id) { entity in
+                        CharacterCardView(imageUrl: entity.image ?? "",
+                                          name: entity.name ?? "",
+                                          status: entity.status ?? "",
+                                          species: entity.species ?? "",
+                                          gender: entity.gender ?? "",
+                                          isFavorite: .constant(true),
+                                          onFavoriteToggle: {
+                                            await viewModel.toggleFavorite(for: entity)
+                                        })
+                    }
+                }
+                .padding(16)
+            }
+        }
+        .alert("Error", isPresented: $viewModel.showError) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(viewModel.errorMessage)
+        }
     }
 }
 

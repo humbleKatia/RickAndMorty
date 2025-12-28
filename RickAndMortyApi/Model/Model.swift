@@ -8,21 +8,22 @@
 import UIKit
 
 struct Results: Codable {
-    var results: [Character]
+    let results: [Character]
 }
 
 struct Character: Codable {
-    var id: Int
-    var name: String
-    var status: String
-    var species: String
-    var gender: String
-    var origin: Origin
-    var image: String
+    let id: Int64
+    let name: String
+    let status: String
+    let species: String
+    let gender: String
+    let origin: Origin
+    let image: String
+    
 }
 
 struct Origin: Codable {
-    var name: String
-    var url: String
+    let name: String
+    let url: String
 }
 

@@ -7,14 +7,14 @@
 
 import Foundation
 
-class CharacterService {
+class CharacterService: CharacterServiceProtocol {
     static let shared = CharacterService()
-    var url = "https://rickandmortyapi.com/api/character"
+    private let urlString = "https://rickandmortyapi.com/api/character"
     
-    private init() {}
+    init() {}
     
     func getCharacters() async throws -> [Character] {
-        guard let url = URL(string: url) else {
+        guard let url = URL(string: urlString) else {
             throw URLError(.badURL)
         }
         let (data, response) = try await URLSession.shared.data(from: url)
@@ -25,18 +25,15 @@ class CharacterService {
         
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        guard let results = try? decoder.decode(Results.self, from: data) else {
-            throw URLError(.cannotParseResponse)
-        }
+        let results = try decoder.decode(Results.self, from: data)
         return results.results
     }
     
     func setFavoriteStatus(id: Int64, isFavorite: Bool) async throws -> Bool {
-        print("post favorite status: ID \(id) -> \(isFavorite)")
         try await Task.sleep(nanoseconds: 1_000_000_000)
         // simulate server error
-        //throw URLError(.badServerResponse)
+        // throw URLError(.badServerResponse)
+        print("post favorite status: ID \(id) -> \(isFavorite)")
         return isFavorite
     }
-    
 }
