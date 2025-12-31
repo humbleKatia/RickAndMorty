@@ -8,6 +8,7 @@
 import Foundation
 import CoreData
 
+
 class CoreDataFavoritesService: FavoritesServiceProtocol {
     private let context: NSManagedObjectContext
     
@@ -20,7 +21,7 @@ class CoreDataFavoritesService: FavoritesServiceProtocol {
         return (try? context.fetch(request)) ?? []
     }
     
-    func add(character: Character) {
+    func add(character: RMCharacter) {
         let entity = CharacterEntity(context: context)
         entity.id = Int64(character.id)
         entity.name = character.name
@@ -35,6 +36,7 @@ class CoreDataFavoritesService: FavoritesServiceProtocol {
     }
     
     func remove(id: Int64) {
+        print("Removing from Core Data")
         let fetchRequest: NSFetchRequest<CharacterEntity> = CharacterEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %d", id)
         do {

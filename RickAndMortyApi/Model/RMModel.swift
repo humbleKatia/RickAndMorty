@@ -8,10 +8,10 @@
 import UIKit
 
 struct Results: Codable {
-    let results: [Character]
+    let results: [RMCharacter]
 }
 
-struct Character: Codable {
+struct RMCharacter: Codable, Identifiable {
     let id: Int64
     let name: String
     let status: String
@@ -26,4 +26,7 @@ struct Origin: Codable {
     let name: String
     let url: String
 }
+
+
+
 

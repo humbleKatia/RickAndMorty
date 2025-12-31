@@ -1,5 +1,5 @@
 //
-//  CharacterService.swift
+//  RMService.swift
 //  RickAndMortyApi
 //
 //  Created by Ekaterina Lysova on 20/12/2025.
@@ -7,13 +7,13 @@
 
 import Foundation
 
-class CharacterService: CharacterServiceProtocol {
-    static let shared = CharacterService()
+class RMService: CharacterServiceProtocol {
+    static let shared = RMService()
     private let urlString = "https://rickandmortyapi.com/api/character"
     
     init() {}
     
-    func getCharacters() async throws -> [Character] {
+    func getCharacters() async throws -> [RMCharacter] {
         guard let url = URL(string: urlString) else {
             throw URLError(.badURL)
         }

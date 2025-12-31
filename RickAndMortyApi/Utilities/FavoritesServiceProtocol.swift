@@ -9,6 +9,12 @@ import Foundation
 
 protocol FavoritesServiceProtocol {
     func fetchFavorites() -> [CharacterEntity]
-    func add(character: Character)
+    func add(character: RMCharacter)
+    func remove(id: Int64)
+}
+
+protocol PokemonFavoritesProvider {
+    func fetchFavorites() -> [PokemonEntity]
+    func add(pokemon: Pokemon)
     func remove(id: Int64)
 }

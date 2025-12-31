@@ -13,21 +13,26 @@ struct FavoritesView: View {
     var body: some View {
         ZStack {
             Color.customBackground.ignoresSafeArea()
-            ScrollView {
-                LazyVStack(spacing: 8) {
-                    ForEach(viewModel.favoriteCharacters, id: \.id) { entity in
-                        CharacterCardView(imageUrl: entity.image ?? "",
-                                          name: entity.name ?? "",
-                                          status: entity.status ?? "",
-                                          species: entity.species ?? "",
-                                          gender: entity.gender ?? "",
-                                          isFavorite: .constant(true),
-                                          onFavoriteToggle: {
-                                            await viewModel.toggleFavorite(for: entity)
-                                        })
+            
+            VStack(spacing: 0) {
+                Picker("Source", selection: $viewModel.selectedSource) {
+                    ForEach(FeedSource.allCases) { source in
+                        Text(source.rawValue).tag(source)
                     }
                 }
-                .padding(16)
+                .pickerStyle(.segmented)
+                .padding()
+                .background(.ultraThinMaterial)
+                ScrollView {
+                    LazyVStack(spacing: 8) {
+                        if viewModel.selectedSource == .rickAndMorty {
+                            rickAndMortyList
+                        } else {
+                            pokemonList
+                        }
+                    }
+                    .padding(16)
+                }
             }
         }
         .alert("Error", isPresented: $viewModel.showError) {
@@ -36,6 +41,35 @@ struct FavoritesView: View {
             Text(viewModel.errorMessage)
         }
     }
+    
+    var rickAndMortyList: some View {
+        ForEach(viewModel.rnmFavorites, id: \.id) { entity in
+            CharacterCardView(imageUrl: entity.image ?? "",
+                              name: entity.name ?? "",
+                              status: entity.status ?? "",
+                              species: entity.species ?? "",
+                              gender: entity.gender ?? "",
+                              isFavorite: .constant(true),
+                              onFavoriteToggle: {
+                await viewModel.toggleFavorite(for: entity)
+            })
+        }
+    }
+    
+    var pokemonList: some View {
+        ForEach(viewModel.pokemonFavorites, id: \.id) { entity in
+            CharacterCardView(imageUrl: entity.imageUrl ?? "",
+                              name: entity.name ?? "",
+                              status:  "Pokemon",
+                              species: "Pocket Monster",
+                              gender: "",
+                              isFavorite: .constant(true),
+                              onFavoriteToggle: {
+                await viewModel.toggleFavoritePokemon(for: entity)
+            })
+        }
+    }
+
 }
 
 #Preview {
