@@ -7,33 +7,17 @@
 
 import SwiftUI
 
-//@main
-//struct RickAndMortyApiApp: App {
-//    @StateObject private var viewModel = ViewModel(
-//        apiService: RMService.shared,
-//        databaseService: CoreDataFavoritesService()
-//    )
-//    
-//    var body: some Scene {
-//        WindowGroup {
-//            ContentView()
-//                .environmentObject(viewModel)
-//        }
-//    }
-//}
 @main
 struct RickAndMortyApiApp: App {
-    // Create services once
     let rnmApi = RMService.shared
-    let rnmDb = CoreDataFavoritesService() // Implements FavoritesServiceProtocol
+    let rnmDb = CoreDataFavoritesService()
     
     let pokeApi = PokemonService.shared
-    let pokeDb = CoreDataPokemonService()  // Implements PokemonFavoritesProvider
+    let pokeDb = CoreDataPokemonService()
     
     @StateObject private var viewModel: ViewModel
 
     init() {
-        // Initialize StateObject with dependencies
         let vm = ViewModel(
             rnmApi: RMService.shared,
             rnmDb: CoreDataFavoritesService(),
@@ -45,7 +29,7 @@ struct RickAndMortyApiApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView() // ContentView holds the FeedView
+            ContentView()
                 .environmentObject(viewModel)
         }
     }
