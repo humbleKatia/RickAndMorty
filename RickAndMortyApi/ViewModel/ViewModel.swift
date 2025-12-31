@@ -28,9 +28,9 @@ class ViewModel: ObservableObject {
     private let rnmApi: CharacterServiceProtocol
     private let rnmDb: FavoritesServiceProtocol
     
-    // Pokemon Services (Assumed from previous context)
+    // Pokemon Services 
     private let pokeApi: PokemonServiceProtocol
-    private let pokeDb: PokemonFavoritesProvider // Or generic equivalent
+    private let pokeDb: PokemonFavoritesProvider
     
     init(rnmApi: CharacterServiceProtocol,
          rnmDb: FavoritesServiceProtocol,
