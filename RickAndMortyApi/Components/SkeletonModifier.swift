@@ -31,12 +31,9 @@ struct SkeletonModifier: ViewModifier {
             .overlay {
                 if isLoading {
                     ZStack {
-                        //Фон
                         customColor
-                        //бегающий шиммер
                         shimmer
                     }
-                    // применяем маску один раз ко всему сразу
                     .mask {
                         maskView(content: content)
                     }
