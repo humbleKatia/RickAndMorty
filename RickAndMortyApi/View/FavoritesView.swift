@@ -13,16 +13,8 @@ struct FavoritesView: View {
     var body: some View {
         ZStack {
             Color.customBackground.ignoresSafeArea()
-            
             VStack(spacing: 0) {
-                Picker("Source", selection: $viewModel.selectedSource) {
-                    ForEach(FeedSource.allCases) { source in
-                        Text(source.rawValue).tag(source)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .padding()
-                .background(.ultraThinMaterial)
+                SourcePicker(selectedSource: $viewModel.selectedSource)
                 ScrollView {
                     VStack(spacing: 8) {
                         switch viewModel.selectedSource {

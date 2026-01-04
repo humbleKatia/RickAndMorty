@@ -7,13 +7,6 @@
 
 import SwiftUI
 
-enum FeedSource: String, CaseIterable, Identifiable {
-    case rickAndMorty = "Rick & Morty"
-    case pokemon = "Pokemon"
-    
-    var id: String { self.rawValue }
-}
-
 struct FeedView: View {
     @EnvironmentObject var viewModel: ViewModel
     
@@ -21,14 +14,7 @@ struct FeedView: View {
         ZStack {
             Color.customBackground.ignoresSafeArea()
             VStack(spacing: 0) {
-                Picker("Source", selection: $viewModel.selectedSource) {
-                    ForEach(FeedSource.allCases) { source in
-                        Text(source.rawValue).tag(source)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .padding()
-                .background(.ultraThinMaterial)
+                SourcePicker(selectedSource: $viewModel.selectedSource)
                 ScrollView {
                     VStack(spacing: 8) {
                         switch viewModel.selectedSource {
