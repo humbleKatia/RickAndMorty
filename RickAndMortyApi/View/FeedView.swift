@@ -57,17 +57,24 @@ struct FeedView: View {
                 },
                 set: { _ in }
             )
-            CharacterCardView(
-                imageUrl: character.image,
-                name: character.name,
-                status: character.status,
-                species: character.species,
-                gender: character.gender,
-                isFavorite: isFavorite,
-                onFavoriteToggle: {
-                    await viewModel.toggleRMFavorite(for: character)
+            if viewModel.isloading {
+                CharacterCardView(imageUrl: "", name: "", status: "", species: "", gender: "", isFavorite: .constant(true), isloading: $viewModel.isloading) {
+                    return true
                 }
-            )
+            } else {
+                CharacterCardView(
+                    imageUrl: character.image,
+                    name: character.name,
+                    status: character.status,
+                    species: character.species,
+                    gender: character.gender,
+                    isFavorite: isFavorite,
+                    isloading: $viewModel.isloading,
+                    onFavoriteToggle: {
+                        await viewModel.toggleRMFavorite(for: character)
+                    }
+                )
+            }
         }
     }
     
@@ -79,17 +86,24 @@ struct FeedView: View {
                 },
                 set: { _ in }
             )
-            CharacterCardView(
-                imageUrl: pokemon.imageUrl,
-                name: pokemon.name,
-                status: "Pokemon",
-                species: "Pokemon species",
-                gender: "Unknown",
-                isFavorite: isFavorite,
-                onFavoriteToggle: {
-                    await viewModel.togglePokeFavorite(pokemon: pokemon)
+            if viewModel.isloading {
+                CharacterCardView(imageUrl: "", name: "", status: "", species: "", gender: "", isFavorite: .constant(true), isloading: $viewModel.isloading) {
+                    return true
                 }
-            )
+            } else {
+                CharacterCardView(
+                    imageUrl: pokemon.imageUrl,
+                    name: pokemon.name,
+                    status: "Pokemon",
+                    species: "Pokemon species",
+                    gender: "Unknown",
+                    isFavorite: isFavorite,
+                    isloading: $viewModel.isloading,
+                    onFavoriteToggle: {
+                        await viewModel.togglePokeFavorite(pokemon: pokemon)
+                    }
+                )
+            }
         }
     }
 }

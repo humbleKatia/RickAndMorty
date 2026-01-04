@@ -12,6 +12,7 @@ class RMService: RemoteServiceProtocol {
     private let urlString = "https://rickandmortyapi.com/api/character"
     
     func fetchItems() async throws -> [RMCharacter] {
+        try await Task.sleep(nanoseconds: 10_000_000_000) //Check Skeleton
         guard let url = URL(string: urlString) else { throw URLError(.badURL) }
         let (data, response) = try await URLSession.shared.data(from: url)
         

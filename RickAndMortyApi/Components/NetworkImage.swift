@@ -13,7 +13,7 @@ struct NetworkImage: View {
     let imageUrl: String
     
     var body: some View {
-        Group {
+        ZStack {
             if let uiImage = image {
                 Image(uiImage: uiImage)
                     .resizable()

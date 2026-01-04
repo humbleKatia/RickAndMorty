@@ -51,6 +51,7 @@ struct FavoritesView: View {
                               species: entity.species,
                               gender: entity.gender,
                               isFavorite: .constant(true),
+                              isloading: $viewModel.isloading,
                               onFavoriteToggle: {
                 await viewModel.toggleRMFavorite(for: entity)
             })
@@ -65,6 +66,7 @@ struct FavoritesView: View {
                               species: "Pocket Monster",
                               gender: "",
                               isFavorite: .constant(true),
+                              isloading: $viewModel.isloading,
                               onFavoriteToggle: {
                 await viewModel.togglePokeFavorite(pokemon: entity)
             })

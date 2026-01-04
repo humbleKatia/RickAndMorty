@@ -13,6 +13,7 @@ class ViewModel: ObservableObject {
     @Published var selectedSource: FeedSource = .rickAndMorty
     @Published var showError: Bool = false
     @Published var errorMessage: String = ""
+    @Published var isloading: Bool = false
     // MARK: - Domain Models
     @Published var rnmCharacters: [RMCharacter] = []
     @Published var rnmFavorites: [RMCharacter] = []
@@ -26,7 +27,11 @@ class ViewModel: ObservableObject {
     init(rnmRepo: RickAndMortyRepository, pokeRepo: PokemonRepository) {
         self.rnmRepo = rnmRepo
         self.pokeRepo = pokeRepo
-        Task { await loadData() }
+        Task {
+            self.isloading = true
+            await loadData()
+            self.isloading = false
+        }
     }
     
     // MARK: - Loading
@@ -36,7 +41,6 @@ class ViewModel: ObservableObject {
             pokemonFavorites = pokeRepo.fetchPokemonfromDB()
             self.rnmCharacters = try await rnmRepo.fetchRMFromNetwork()
             self.pokemons = try await pokeRepo.fetchPokemonFromNetwork()
-            print(pokemons)
         } catch {
             handleError(error)
         }
