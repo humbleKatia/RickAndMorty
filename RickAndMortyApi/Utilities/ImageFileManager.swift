@@ -34,7 +34,6 @@ class ImageFileManager {
     
     private func createFolderIfNeeded(folderName: String) {
         guard let url = getURLForFolder(folderName: folderName) else { return }
-        
         if !FileManager.default.fileExists(atPath: url.path) {
             do {
                 try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
@@ -57,5 +56,4 @@ class ImageFileManager {
         }
         return folderURL.appendingPathComponent(imageName)
     }
-    
 }

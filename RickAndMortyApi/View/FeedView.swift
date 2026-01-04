@@ -30,10 +30,11 @@ struct FeedView: View {
                 .padding()
                 .background(.ultraThinMaterial)
                 ScrollView {
-                    LazyVStack(spacing: 8) {
-                        if viewModel.selectedSource == .rickAndMorty {
+                    VStack(spacing: 8) {
+                        switch viewModel.selectedSource {
+                        case .rickAndMorty:
                             rickAndMortyList
-                        } else {
+                        case .pokemon:
                             pokemonList
                         }
                     }
@@ -48,12 +49,11 @@ struct FeedView: View {
         }
     }
     
-    // MARK: - Subviews for cleaner code
     var rickAndMortyList: some View {
         ForEach(viewModel.rnmCharacters, id: \.id) { character in
             let isFavorite = Binding<Bool>(
                 get: {
-                    viewModel.isFavorite(characterId: Int64(character.id))
+                    viewModel.isFavorite(characterId: character.id)
                 },
                 set: { _ in }
             )
@@ -65,7 +65,7 @@ struct FeedView: View {
                 gender: character.gender,
                 isFavorite: isFavorite,
                 onFavoriteToggle: {
-                    await viewModel.toggleFavorite(for: character)
+                    await viewModel.toggleRMFavorite(for: character)
                 }
             )
         }
@@ -75,16 +75,16 @@ struct FeedView: View {
         ForEach(viewModel.pokemons, id: \.id) { pokemon in
             let isFavorite = Binding<Bool>(
                 get: {
-                    viewModel.isPokeFavorite(id: Int64(pokemon.id))
+                    viewModel.isPokeFavorite(id: pokemon.id)
                 },
                 set: { _ in }
             )
             CharacterCardView(
                 imageUrl: pokemon.imageUrl,
                 name: pokemon.name,
-                status: "",
-                species: "",
-                gender: "",
+                status: "Pokemon",
+                species: "Pokemon species",
+                gender: "Unknown",
                 isFavorite: isFavorite,
                 onFavoriteToggle: {
                     await viewModel.togglePokeFavorite(pokemon: pokemon)

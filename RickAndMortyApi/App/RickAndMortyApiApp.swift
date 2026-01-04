@@ -9,24 +9,9 @@ import SwiftUI
 
 @main
 struct RickAndMortyApiApp: App {
-    let rnmApi = RMService.shared
-    let rnmDb = CoreDataFavoritesService()
-    
-    let pokeApi = PokemonService.shared
-    let pokeDb = CoreDataPokemonService()
-    
-    @StateObject private var viewModel: ViewModel
+    @StateObject private var viewModel = ViewModel(rnmRepo: RickAndMortyRepository(api: RMService.shared, db: CoreDataRMService()),
+                                                   pokeRepo: PokemonRepository(api: PokemonService.shared, db: CoreDataPokemonService()))
 
-    init() {
-        let vm = ViewModel(
-            rnmApi: RMService.shared,
-            rnmDb: CoreDataFavoritesService(),
-            pokeApi: PokemonService.shared,
-            pokeDb: CoreDataPokemonService()
-        )
-        _viewModel = StateObject(wrappedValue: vm)
-    }
-    
     var body: some Scene {
         WindowGroup {
             ContentView()

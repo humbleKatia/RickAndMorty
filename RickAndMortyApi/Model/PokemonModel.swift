@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Pokemon: Identifiable, Codable, Hashable {
-    let id: Int
+struct Pokemon: RemoteCharacter {
+    let id: Int64
     let name: String
     let imageUrl: String
 }
@@ -19,5 +19,5 @@ struct PokemonApiResponse: Codable {
 
 struct PokemonApiResult: Codable {
     let name: String
-    let url: String // e.g., "https://pokeapi.co/api/v2/pokemon/1/"
+    let url: String 
 }

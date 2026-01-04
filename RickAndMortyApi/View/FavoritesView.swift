@@ -24,10 +24,11 @@ struct FavoritesView: View {
                 .padding()
                 .background(.ultraThinMaterial)
                 ScrollView {
-                    LazyVStack(spacing: 8) {
-                        if viewModel.selectedSource == .rickAndMorty {
+                    VStack(spacing: 8) {
+                        switch viewModel.selectedSource {
+                        case .rickAndMorty:
                             rickAndMortyList
-                        } else {
+                        case .pokemon:
                             pokemonList
                         }
                     }
@@ -44,32 +45,31 @@ struct FavoritesView: View {
     
     var rickAndMortyList: some View {
         ForEach(viewModel.rnmFavorites, id: \.id) { entity in
-            CharacterCardView(imageUrl: entity.image ?? "",
-                              name: entity.name ?? "",
-                              status: entity.status ?? "",
-                              species: entity.species ?? "",
-                              gender: entity.gender ?? "",
+            CharacterCardView(imageUrl: entity.image,
+                              name: entity.name,
+                              status: entity.status,
+                              species: entity.species,
+                              gender: entity.gender,
                               isFavorite: .constant(true),
                               onFavoriteToggle: {
-                await viewModel.toggleFavorite(for: entity)
+                await viewModel.toggleRMFavorite(for: entity)
             })
         }
     }
     
     var pokemonList: some View {
         ForEach(viewModel.pokemonFavorites, id: \.id) { entity in
-            CharacterCardView(imageUrl: entity.imageUrl ?? "",
-                              name: entity.name ?? "",
+            CharacterCardView(imageUrl: entity.imageUrl,
+                              name: entity.name,
                               status:  "Pokemon",
                               species: "Pocket Monster",
                               gender: "",
                               isFavorite: .constant(true),
                               onFavoriteToggle: {
-                await viewModel.toggleFavoritePokemon(for: entity)
+                await viewModel.togglePokeFavorite(pokemon: entity)
             })
         }
     }
-
 }
 
 #Preview {

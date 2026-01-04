@@ -19,7 +19,6 @@ struct CharacterCardView: View {
     
     var body: some View {
         ZStack {
-            
             HStack(spacing: 8) {
                 NetworkImage(imageUrl: imageUrl)
                     .frame(width: height, height: height)
@@ -42,7 +41,6 @@ struct CharacterCardView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         FavoriteButton(isFavorite: $isFavorite) {
                             try await onFavoriteToggle()
-                            
                         }
                         .frame(width: 34, height: 34)
                         .padding(.trailing, 4)

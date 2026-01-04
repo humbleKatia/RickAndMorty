@@ -7,16 +7,12 @@
 
 import Foundation
 
-class RMService: CharacterServiceProtocol {
+class RMService: RemoteServiceProtocol {
     static let shared = RMService()
     private let urlString = "https://rickandmortyapi.com/api/character"
     
-    init() {}
-    
-    func getCharacters() async throws -> [RMCharacter] {
-        guard let url = URL(string: urlString) else {
-            throw URLError(.badURL)
-        }
+    func fetchItems() async throws -> [RMCharacter] {
+        guard let url = URL(string: urlString) else { throw URLError(.badURL) }
         let (data, response) = try await URLSession.shared.data(from: url)
         
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
@@ -25,15 +21,12 @@ class RMService: CharacterServiceProtocol {
         
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        let results = try decoder.decode(Results.self, from: data)
-        return results.results
+        return try decoder.decode(Results.self, from: data).results
     }
     
     func setFavoriteStatus(id: Int64, isFavorite: Bool) async throws -> Bool {
-        try await Task.sleep(nanoseconds: 1_000_000_000)
-        // simulate server error
-        // throw URLError(.badServerResponse)
-        print("post favorite status: ID \(id) -> \(isFavorite)")
+        try await Task.sleep(nanoseconds: 500_000_000) // Simulate network
+        print("R&M API: ID \(id) -> \(isFavorite)")
         return isFavorite
     }
 }

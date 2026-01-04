@@ -11,7 +11,7 @@ struct Results: Codable {
     let results: [RMCharacter]
 }
 
-struct RMCharacter: Codable, Identifiable {
+struct RMCharacter: RemoteCharacter {
     let id: Int64
     let name: String
     let status: String
