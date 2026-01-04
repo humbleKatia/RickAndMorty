@@ -19,9 +19,17 @@ struct FavoritesView: View {
                     VStack(spacing: 8) {
                         switch viewModel.selectedSource {
                         case .rickAndMorty:
-                            rickAndMortyList
+                            if viewModel.rnmFavorites.isEmpty {
+                                EmptyStateView()
+                            } else {
+                                rickAndMortyList
+                            }
                         case .pokemon:
-                            pokemonList
+                            if viewModel.pokemonFavorites.isEmpty {
+                                EmptyStateView()
+                            } else {
+                                pokemonList
+                            }
                         }
                     }
                     .padding(16)
