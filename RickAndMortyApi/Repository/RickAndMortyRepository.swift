@@ -41,10 +41,14 @@ final class RickAndMortyRepository {
                 .setFavoriteStatus(id: Int64(character.id), isFavorite: targetState)
             if targetState {
                 db.save(item: character)
-                print("added to core data")
+                //Save Image Permanently
+                ImageService.shared.saveToFavorites(urlString: character.image)
+                print("Added to Core Data & Documents")
             } else {
                 db.remove(id: character.id)
-                print("deleted from core data")
+                //Remove Image from Documents
+                ImageService.shared.removeFromFavorites(urlString: character.image)
+                print("Deleted from Core Data & Documents")
             }
         } catch {
             throw error

@@ -41,10 +41,14 @@ class PokemonRepository {
                 .setFavoriteStatus(id: Int64(pokemon.id), isFavorite: targetState)
             if targetState {
                 db.save(item: pokemon)
-                print("added to core data")
+                // Save Image Permanently
+                ImageService.shared.saveToFavorites(urlString: pokemon.imageUrl)
+                print("add to core data & Documents")
             } else {
                 db.remove(id: pokemon.id)
-                print("deleted from core data")
+                // Remove Image from Documents
+                ImageService.shared.removeFromFavorites(urlString: pokemon.imageUrl)
+                print("deleted from core data & Documents")
             }
         } catch {
             throw error
